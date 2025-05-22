@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Customers Churn Prediction</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('static/background.jpeg'); /* Add your background image */
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 800px;
+            margin: auto;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+        h1, h2 {
+            color: #ffcc00;
+            text-shadow: 1px 1px 2px black;
+        }
+        .btn-custom {
+            background-color: #ffcc00;
+            color: black;
+            font-weight: bold;
+            border: none;
+        }
+        .btn-custom:hover {
+            background-color: #e6b800;
+            color: white;
+        }
+        label {
+            font-weight: bold;
+        }
+        select, input[type="number"], input[type="text"] {
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Bank Customers Churn Prediction</h1>
+        <form method="post">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Customer ID:</label>
+                        <input type="number" class="form-control" name="CustomerID" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" class="form-control" name="Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Credit Score:</label>
+                        <input type="number" class="form-control" name="CreditScore" min="0" max="1000" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Age:</label>
+                        <input type="number" class="form-control" name="Age" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tenure:</label>
+                        <input type="number" class="form-control" name="Tenure" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Balance:</label>
+                        <input type="number" class="form-control" step="0.01" name="Balance" min="0" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Number of Products:</label>
+                        <input type="number" class="form-control" name="NumOfProducts" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Has Credit Card:</label>
+                        <select class="form-control" name="HasCrCard" required>
+                            <option value>Select</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Is Active Member:</label>
+                        <select class="form-control" name="IsActiveMember" required>
+                            <option value>Select</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Estimated Salary:</label>
+                        <input type="number" class="form-control" step="0.01" name="EstimatedSalary" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Geography:</label>
+                        <select class="form-control" name="Geography" required>
+                            <option value>Select</option>
+                            <option value="1">Germany</option>
+                            <option value="2">Spain</option>
+                            <option value="3">France</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender:</label>
+                        <select class="form-control" name="Gender" required>
+                            <option value>Select</option>
+                            <option value="1">Male</option>
+                            <option value="0">Female</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <input type="submit" class="btn btn-custom btn-block mt-3" value="Predict">
+        </form>
+        {% if prediction %}
+            <h2 class="text-center">{{ prediction }}</h2>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
