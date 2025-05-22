@@ -8,20 +8,19 @@ from sklearn.preprocessing import StandardScaler
 
 app = Flask(__name__)
 
-# Load model
+# Load trained model
 model = joblib.load('churn_predict_model.pkl')
 
-# Load sample data to fit scaler
+# Load sample data for scaler fitting
 data = pd.read_csv('Churn_Modelling.csv')
 data = data.drop(['RowNumber', 'Surname', 'CustomerId'], axis=1)
 data = pd.get_dummies(data, drop_first=True)
 X = data.drop('Exited', axis=1)
 
-# Scale
 scaler = StandardScaler()
 scaler.fit(X)
 
-# Save predictions globally for download
+# Global for saving predictions
 predictions_df = pd.DataFrame()
 
 @app.route('/', methods=['GET', 'POST'])
@@ -38,7 +37,6 @@ def index():
             df = pd.read_csv(file)
             original_df = df.copy()
 
-            # Check required columns
             required_features = ['CreditScore', 'Geography', 'Gender', 'Age', 'Tenure',
                                  'Balance', 'NumOfProducts', 'HasCrCard', 'IsActiveMember', 'EstimatedSalary']
             missing = [col for col in required_features if col not in df.columns]
@@ -48,17 +46,13 @@ def index():
 
             df = pd.get_dummies(df, drop_first=True)
 
-            # Align columns to training data
-            missing_cols = set(X.columns) - set(df.columns)
-            for col in missing_cols:
+            for col in (set(X.columns) - set(df.columns)):
                 df[col] = 0
             df = df[X.columns]
 
-            # Scale
             df_scaled = scaler.transform(df)
             predictions = model.predict(df_scaled)
 
-            # Save at-risk predictions
             original_df['Exited'] = predictions
             predictions_df = original_df[original_df['Exited'] == 1]
 
@@ -70,7 +64,7 @@ def index():
                                    total=total, at_risk=at_risk, safe=safe)
 
         except Exception as e:
-            error = f"An error occurred while processing the file: {str(e)}"
+            error = f"Error during file processing: {str(e)}"
             return render_template('index.html', predictions=None, error=error)
 
     return render_template('index.html', predictions=None, error=error)
